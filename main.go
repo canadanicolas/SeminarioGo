@@ -4,23 +4,11 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"tudai2021.com/model"
 )
 
-type Result struct {
-	Type   string
-	Length int
-	Value  string
-}
-
-type InterfaceInput interface {
-	GetValue() string
-}
-
-type Input struct {
-	Value string
-}
-
-func (inp *Input) GetValue() string {
+func GetValue(inp *model.Input) string {
 	return inp.Value
 }
 
@@ -64,8 +52,8 @@ func SplitInputValue(inp []string, length int) (string, error) {
 }
 
 func main() {
-	input := Input{"T502A3"}
-	split := strings.Split(input.GetValue(), "")
+	input := model.NewInput("TX03ABC")
+	split := strings.Split(GetValue(&input), "")
 	resultType, errType := SplitInputType(split)
 	if (errType != nil) || (resultType == "") {
 		panic("se produjo un error en el tipo del argumento insertado")
@@ -78,7 +66,7 @@ func main() {
 	if (errValue != nil) || (resultValue == "") {
 		panic("se produjo un error en el valor del argumento insertado")
 	}
-	finalResult := Result{resultType, resultLength, resultValue}
+	finalResult := model.NewResult(resultType, resultLength, resultValue)
 	/*fmt.Println(split)
 	fmt.Println(resultType)
 	fmt.Println(resultLength)
